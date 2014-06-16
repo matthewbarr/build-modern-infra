@@ -1,0 +1,52 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "PuppetMaster": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "DisableApiTermination": "FALSE",
+        "ImageId": "ami-408c7f28",
+        "InstanceType": "t1.micro",
+        "KernelId": "aki-919dcaf8",
+        "KeyName": "aws-mbarr",
+        "SecurityGroups" : [ "mbarr-puppetcamp", "mbarr-puppet"],
+        "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
+        "#cloud-config","\n",
+        "preserve_hostname: true","\n",
+        "bootcmd:","\n",
+        " - echo -n puppet > /etc/hostname","\n",
+        " - echo -n - >> /etc/hostname","\n",
+        " - echo -n `curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone` >> /etc/hostname","\n",
+        " - echo -n - >> /etc/hostname","\n",
+        " - echo -n `curl -s http://169.254.169.254/latest/meta-data/instance-id` >> /etc/hostname","\n",
+        " - echo -n .ec2.mbarr.net >> /etc/hostname","\n",
+        " - hostname -F /etc/hostname","\n",
+        " - echo domain ec2.mbarr.net >> /etc/resolv.conf","\n",
+        " - mkdir -p /etc/facter/facts.d/","\n",
+        " - echo role=puppet > /etc/facter/facts.d/role.txt","\n",
+        "apt_sources:","\n",
+        " - source: deb http://apt.puppetlabs.com $RELEASE main dependencies","\n",
+        "   keyid: 4BD6EC30","\n",
+        "   filename: puppetlabs.list","\n",
+        "packages:","\n",
+        " - puppetmaster","\n"]]}},
+        "Monitoring": "false",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "puppetmaster"
+          }
+        ]
+      }
+    }
+  },
+
+  "Description": "Puppet Master Stack",
+
+  "Outputs" : {
+    "PuppetMaster" : {
+      "Value" : { "Fn::Join" : ["", [ { "Fn::GetAtt" : [ "PuppetMaster", "PublicIp" ]} ]] },
+      "Description" : "External IP"
+    }
+  }
+}

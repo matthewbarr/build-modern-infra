@@ -1,0 +1,6 @@
+This is a repo for the code used in the PuppetCamp NYC 2014 talk:
+Building a Modern Infrastructure in 45 min.
+
+
+I've included a cloudstack template for building the puppet master, and this repo will host most of the code for the puppet server, to be put into /etc/puppet
+
