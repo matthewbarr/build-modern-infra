@@ -29,7 +29,9 @@
         "   keyid: 4BD6EC30","\n",
         "   filename: puppetlabs.list","\n",
         "packages:","\n",
-        " - puppetmaster","\n"]]}},
+        " - puppetmaster","\n",
+        " - librarian-puppet","\n",
+        " - git","\n"]]}},
         "Monitoring": "false",
         "Tags": [
           {

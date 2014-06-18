@@ -1,0 +1,17 @@
+forge "http://forge.puppetlabs.com"
+
+#mod "rodjek/logrotate"
+
+mod "elasticsearch/logstash"
+mod "elasticsearch/elasticsearch"
+mod "sensu/sensu"
+#mod "garethr/graphite"
+
+mod "puppetlabs/mcollective"
+
+#mod "puppetlabs/vcsrepo"
+#mod "puppetlabs/git"
+
+
+#mod "jfryman/nginx"
+#mod "puppetlabs/inifile"
