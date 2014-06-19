@@ -38,6 +38,7 @@
         " - [ service, puppetmaster, stop ]","\n",
         " - [ rm, -rf, /etc/puppet ]","\n",
         " - [ git, clone, \"https://github.com/matthewbarr/modern-infra.git\", /etc/puppet ]","\n",
+        " - [ service, puppetmaster, start ]","\n",
         " - [ gem, install, librarian-puppet, --no-ri, --no-rdoc ]","\n",
         " - [ cd, /etc/puppet/environments/production ]","\n",
         " - [ pwd ]","\n",
