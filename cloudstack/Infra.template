@@ -29,8 +29,10 @@
         " - source: deb http://apt.puppetlabs.com $RELEASE main dependencies","\n",
         "   keyid: 4BD6EC30","\n",
         "   filename: puppetlabs.list","\n",
-        "packages:","\n",
-        " - puppetmaster","\n"]]}},
+        "puppet:","\n",
+        " conf:","\n",
+        "   agent:","\n",
+        "     server: \"puppet.ec2.mbarr.net\"","\n"]]}},
         "Monitoring": "false",
         "Tags": [
           {
