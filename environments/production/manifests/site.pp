@@ -20,11 +20,9 @@ Exec {
 
 node default {
   if $role == "mco" {
-    class {'mcollective':
-      middleware       => true,
-      client           => true,
-      connector        => 'rabbitmq',
-    }
+    include profile::rmq
+    include profile::mco::client
+    
 #    include profile::sensu::server
   }
   if $role == "search" {
