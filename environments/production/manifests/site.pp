@@ -19,7 +19,7 @@ Exec {
 } # Exec
 
 node default {
-  if $role == "puppet" {
+  if $role == "mco" {
     class {'mcollective':
       middleware       => true,
       client           => true,
