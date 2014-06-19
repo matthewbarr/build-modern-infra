@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Resources": {
-    "PuppetMaster": {
+    "RMQ": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
         "DisableApiTermination": "FALSE",
@@ -9,12 +9,12 @@
         "InstanceType": "t1.micro",
         "KernelId": "aki-919dcaf8",
         "KeyName": "aws-mbarr",
-        "SecurityGroups" : [ "mbarr-puppetcamp", "mbarr-puppet"],
+        "SecurityGroups" : [ "mbarr-puppetcamp", "mbarr-pcamp-rmq"],
         "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
         "#cloud-config","\n",
         "preserve_hostname: true","\n",
         "bootcmd:","\n",
-        " - echo -n puppet > /etc/hostname","\n",
+        " - echo -n rmq > /etc/hostname","\n",
         " - echo -n - >> /etc/hostname","\n",
         " - echo -n `curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone` >> /etc/hostname","\n",
         " - echo -n - >> /etc/hostname","\n",
@@ -23,54 +23,43 @@
         " - hostname -F /etc/hostname","\n",
         " - echo domain ec2.mbarr.net >> /etc/resolv.conf","\n",
         " - mkdir -p /etc/facter/facts.d/","\n",
-        " - echo role=puppet > /etc/facter/facts.d/role.txt","\n",
-        " - echo 127.0.0.1 localhost puppet-`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`-`curl -s http://169.254.169.254/latest/meta-data/instance-id`.ec2.mbarr.net > /etc/hosts","\n",
+        " - echo role=mco > /etc/facter/facts.d/role.txt","\n",
+        " - echo 127.0.0.1 localhost rmq-`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`-`curl -s http://169.254.169.254/latest/meta-data/instance-id`.ec2.mbarr.net > /etc/hosts","\n",
         "apt_sources:","\n",
         " - source: deb http://apt.puppetlabs.com $RELEASE main dependencies","\n",
         "   keyid: 4BD6EC30","\n",
         "   filename: puppetlabs.list","\n",
         "packages:","\n",
-        " - puppetmaster","\n",
-        " - ruby-dev","\n",
-        " - make","\n",
-        " - git","\n",
-        "runcmd:","\n",
-        " - [ service, puppetmaster, stop ]","\n",
-        " - [ rm, -rf, /etc/puppet ]","\n",
-        " - [ git, clone, \"https://github.com/matthewbarr/modern-infra.git\", /etc/puppet ]","\n",
-        " - [ gem, install, librarian-puppet, --no-ri, --no-rdoc ]","\n",
-        " - [ cd, /etc/puppet/environments/production ]","\n",
-        " - [ pwd ]","\n",
-        " - HOME=/root librarian-puppet install ","\n"]]}},
+        " - puppetmaster","\n"]]}},
         "Monitoring": "false",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "puppetmaster"
+            "Value": "rabbitmq"
           }
         ]
       }
     },
-    "PuppetDNS" : {
+    "RMQDNS" : {
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
-        "HostedZoneId" : "/hostedzone/Z12L0I3Z7FFNRK",
-        "Comment" : "Puppet Server.",
-        "Name" :  "puppet.ec2.mbarr.net",
+        "HostedZoneId" : "/hostedzone/Z1I5ORS78J7CVA",
+        "Comment" : "RMQ Server.",
+        "Name" :  "rabbitmq.aws.mbarr.net",
         "Type" : "CNAME",
         "TTL" : "30",
         "ResourceRecords" : [
-           { "Fn::GetAtt" : [ "PuppetMaster", "PublicDnsName" ] }
+           { "Fn::GetAtt" : [ "RMQ", "PublicDnsName" ] }
         ]
       }
     }
   },
 
-  "Description": "Puppet Master Stack",
+  "Description": "Infra Stack",
 
   "Outputs" : {
     "PuppetMaster" : {
-      "Value" : { "Fn::Join" : ["", [ { "Fn::GetAtt" : [ "PuppetMaster", "PublicIp" ]} ]] },
+      "Value" : { "Fn::Join" : ["", [ { "Fn::GetAtt" : [ "RMQ", "PublicIp" ]} ]] },
       "Description" : "External IP"
     }
   }
