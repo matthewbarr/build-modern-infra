@@ -20,8 +20,8 @@ Exec {
 
 node default {
   if $role == "mco" {
-    include profile::rmq
-    include profile::mco::client
+    include profiles::rmq
+    include profiles::mco::client
     
 #    include profile::sensu::server
   }
