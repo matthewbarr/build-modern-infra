@@ -26,6 +26,9 @@ node default {
     include profiles::mco::client
 #    include profile::sensu::server
   }
+  if $role == "puppet" {
+    include profiles::mco::server
+  }
   if $role == "search" {
     include profile::elasticsearch
   }
