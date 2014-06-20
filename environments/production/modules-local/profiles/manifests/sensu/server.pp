@@ -5,7 +5,14 @@ class profiles::sensu::server {
   package { 'redis-server':
     ensure => installed,
   }
-  
+
+# hack to deal w/ the sensu key not being in the current forge version.  It's upstream , but not release.
+# TODO: only for Debian/ Ubuntu  
+  apt::key { 'sensu':
+    key        => '7580C77F',
+    key_source => 'http://repos.sensuapp.org/apt/pubkey.gpg',
+  }
+
   class { 'sensu':
     rabbitmq_password        => 'meep',
     server                   => true,
