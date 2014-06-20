@@ -27,8 +27,8 @@ class profiles::sensu::server {
     api                      => true,
     use_embedded_ruby        => true,
     rabbitmq_port            => '5671',
-    rabbitmq_ssl_cert_chain  => "file:///etc/sensu/ssl/cert.pem",
-    rabbitmq_ssl_private_key => "file:///etc/sensu/ssl/key.pem",
+    rabbitmq_ssl_cert_chain  => "/etc/sensu/ssl/cert.pem",
+    rabbitmq_ssl_private_key => "/etc/sensu/ssl/key.pem",
     subscriptions            => 'mbarr',
   }
 
