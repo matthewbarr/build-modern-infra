@@ -41,7 +41,6 @@
         " - [ service, puppetmaster, start ]","\n",
         " - [ gem, install, librarian-puppet, --no-ri, --no-rdoc ]","\n",
         " - [ cd, /etc/puppet/environments/production ]","\n",
-        " - [ pwd ]","\n",
         " - HOME=/root librarian-puppet install ","\n"]]}},
         "Monitoring": "false",
         "Tags": [
