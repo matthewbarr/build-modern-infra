@@ -14,7 +14,7 @@ $rmqhostname=undef)
     stomp_port               => 61613,
     config_stomp             => true,
     ssl_stomp_port           => 61614,
-    stomp_ensure             => true,
+    stomp_ensure             => present,
   } ->
   rabbitmq_vhost { '/sensu':
     ensure => present,

@@ -60,7 +60,7 @@
   "Description": "Infra Stack",
 
   "Outputs" : {
-    "PuppetMaster" : {
+    "RabbitMQ" : {
       "Value" : { "Fn::Join" : ["", [ { "Fn::GetAtt" : [ "RMQ", "PublicIp" ]} ]] },
       "Description" : "External IP"
     }
