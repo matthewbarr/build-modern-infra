@@ -3,16 +3,36 @@
 #
 class profiles::rmq (
 $rmqhostname=undef,
-
 )
 {
+  file { '/etc/rabbitmq/ssl/ca.pem':
+    owner  => 'rabbitmq',
+    group  => 'rabbitmq',
+    mode   => '0444',
+    source => 'file:///var/lib/puppet/ssl/certs/ca.pem';
+  }
+  
+  file { '/etc/rabbitmq/ssl/server_public.pem':
+    owner  => 'rabbitmq',
+    group  => 'rabbitmq',
+    mode   => '0444',
+    source => "file:///var/lib/puppet/ssl/certs/$rmqhostname.pem";
+  }
+  
+  file { '/etc/rabbitmq/ssl/server_private.pem':
+    owner  => 'rabbitmq',
+    group  => 'rabbitmq',
+    mode   => '0444',
+    source => "file:///var/lib/puppet/ssl/private_keys/$rmqhostname.pem";
+  }
+  
   class { '::rabbitmq':
     ssl                      => true,
     ssl_verify               => 'verify_peer',
     ssl_fail_if_no_peer_cert => true,
-    ssl_cacert               => '/var/lib/puppet/ssl/certs/ca.pem',
-    ssl_cert                 => "/var/lib/puppet/ssl/certs/$rmqhostname.pem",
-    ssl_key                  => "/var/lib/puppet/ssl/private_keys/$rmqhostname.pem",
+    ssl_cacert               => '/etc/rabbitmq/ssl/ca.pem',
+    ssl_cert                 => '/etc/rabbitmq/ssl/server_public.pem',
+    ssl_key                  => '/etc/rabbitmq/ssl/server_private.pem',
     stomp_port               => 61613,
     config_stomp             => true,
     ssl_stomp_port           => 61614,
