@@ -18,21 +18,21 @@ class profiles::sensu::server {
     subscriptions            => 'mbarr',
   }
 
-  sensu::handler { 'default':
-    command                       => '/etc/sensu/handlers/mailer.rb',
-    source                        => 'puppet:///modules/profiles/sensu/handlers/mailer.rb',
-    severities                    => ['warning', 'critical', 'unknown'],
-    config                        => {
-      'mail_from'                 => 'sensu@mbarr.net',
-      'mail_to'                   => 'mbarr@mbarr.net',
-      'smtp_address'              => 'email-smtp.us-east-1.amazonaws.com',
-      'smtp_port'                 => '587',
-      'smtp_domain'               => 'mbarr.net',
-      'smtp_username'             => 'MEEEPE',
-      'smtp_password'             => 'ABC',
-      'smtp_enable_starttls_auto' => true
-    }
-  }
+  # sensu::handler { 'default':
+  #   command                       => '/etc/sensu/handlers/mailer.rb',
+  #   source                        => 'puppet:///modules/profiles/sensu/handlers/mailer.rb',
+  #   severities                    => ['warning', 'critical', 'unknown'],
+  #   config                        => {
+  #     'mail_from'                 => 'sensu@mbarr.net',
+  #     'mail_to'                   => 'mbarr@mbarr.net',
+  #     'smtp_address'              => 'email-smtp.us-east-1.amazonaws.com',
+  #     'smtp_port'                 => '587',
+  #     'smtp_domain'               => 'mbarr.net',
+  #     'smtp_username'             => 'MEEEPE',
+  #     'smtp_password'             => 'ABC',
+  #     'smtp_enable_starttls_auto' => true
+  #   }
+  # }
 
 #  class {'profiles::sensu::checks':}
 #  class {'profiles::sensu::plugins':}
