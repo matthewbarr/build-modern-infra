@@ -22,7 +22,7 @@ $rmqhostname=undef,
   file { '/etc/rabbitmq/ssl/server_private.pem':
     owner  => 'rabbitmq',
     group  => 'rabbitmq',
-    mode   => '0444',
+    mode   => '0400',
     source => "file:///var/lib/puppet/ssl/private_keys/$rmqhostname.pem";
   }
   
