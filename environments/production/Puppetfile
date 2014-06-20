@@ -2,6 +2,7 @@ forge "http://forge.puppetlabs.com"
 
 #mod "rodjek/logrotate"
 
+mod "reidmv/puppet_certificate"
 mod "elasticsearch/logstash"
 mod "elasticsearch/elasticsearch"
 mod "sensu/sensu"
