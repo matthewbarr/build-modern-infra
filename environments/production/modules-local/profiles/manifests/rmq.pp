@@ -2,7 +2,9 @@
 #
 #
 class profiles::rmq (
-$rmqhostname=undef)
+$rmqhostname=undef,
+
+)
 {
   class { '::rabbitmq':
     ssl                      => true,
@@ -18,6 +20,46 @@ $rmqhostname=undef)
   rabbitmq_plugin { 'rabbitmq_stomp':
     ensure => present,
   } ->
+
+  rabbitmq_vhost { '/mcollective':
+    ensure => present,
+  } ->
+
+  rabbitmq_user { 'mcollective':
+    ensure   => present,
+    admin    => false,
+    password => 'marionette',
+  } ->
+
+  rabbitmq_user { 'admin':
+    ensure   => present,
+    admin    => true,
+    password => 'secret',
+  } ->
+
+  rabbitmq_user_permissions { "mcollective@/mcollective":
+    configure_permission => '.*',
+    read_permission      => '.*',
+    write_permission     => '.*',
+  } ->
+
+  rabbitmq_user_permissions { "admin@/mcollective":
+    configure_permission => '.*',
+  } ->
+
+  rabbitmq_exchange { "mcollective_broadcast@/mcollective":
+    ensure   => present,
+    type     => 'topic',
+    user     => 'admin',
+    password => 'secret',
+  } ->
+
+  rabbitmq_exchange { "mcollective_directed@/mcollective":
+    ensure   => present,
+    type     => 'direct',
+    user     => 'admin',
+    password => 'secret',
+  } -> 
   rabbitmq_vhost { '/sensu':
     ensure => present,
   }
