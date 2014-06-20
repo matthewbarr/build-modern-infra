@@ -15,4 +15,11 @@ class profiles::mco::client {
   mcollective::client::setting { 'plugin.rabbitmq.heartbeat_interval':
     value => '60',
   }
+  mcollective::client::setting { "plugin.rabbitmq.pool.1.ssl.cert":
+    value => '/etc/mcollective/server_public.pem',
+  }
+
+  mcollective::client::setting { "plugin.rabbitmq.pool.1.ssl.key":
+    value => '/etc/mcollective/server_private.pem',
+  }
 }
