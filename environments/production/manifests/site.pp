@@ -24,7 +24,7 @@ node default {
       rmqhostname => "rabbitmq.aws.mbarr.net"
     }
     include profiles::mco::client
-#    include profile::sensu::server
+    include profile::sensu::server
   }
   if $role == "puppet" {
     include profiles::mco::server
