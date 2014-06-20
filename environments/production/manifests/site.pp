@@ -20,7 +20,9 @@ Exec {
 
 node default {
   if $role == "mco" {
-    include profiles::rmq
+    class profiles::rmq{
+      hostname=> "rabbitmq.aws.mbarr.net"
+    }
     include profiles::mco::client
     
 #    include profile::sensu::server
