@@ -5,7 +5,21 @@ class profiles::sensu::server {
   package { 'redis-server':
     ensure => installed,
   }
-  
+
+  file { '/etc/sensu/ssl/cert.pem':
+    owner   => 'sensu',
+    group   => 'sensu',
+    mode   => '0444',
+    source => "file:///var/lib/puppet/ssl/certs/$rmqhostname.pem";
+  }
+
+  file { '/etc/sensu/ssl/key.pem':
+    owner   => 'sensu',
+    group   => 'sensu',
+    mode   => '0400',
+    source => "file:///var/lib/puppet/ssl/private_keys/$rmqhostname.pem";
+  }
+
   class { 'sensu':
     rabbitmq_password        => 'meep',
     server                   => true,
@@ -13,8 +27,8 @@ class profiles::sensu::server {
     api                      => true,
     use_embedded_ruby        => true,
     rabbitmq_port            => '5671',
-    rabbitmq_ssl_cert_chain  => "file:///var/lib/puppet/ssl/certs/${fqdn}.pem",
-    rabbitmq_ssl_private_key => "file:///var/lib/puppet/ssl/private_keys/${fqdn}.pem",
+    rabbitmq_ssl_cert_chain  => "file:///etc/sensu/ssl/cert.pem",
+    rabbitmq_ssl_private_key => "file:///etc/sensu/ssl/key.pem",
     subscriptions            => 'mbarr',
   }
 
