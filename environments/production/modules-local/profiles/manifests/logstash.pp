@@ -11,9 +11,10 @@ class profiles::logstash {
   }  
 
   class { 'elasticsearch':
-    java_install  => true,
-    manage_repo   => true,
-    repo_version  => '1.1',
+    java_install => true,
+    manage_repo  => true,
+    repo_version => '1.1',
+    status       => 'running'
   }
 
 # Inputs
