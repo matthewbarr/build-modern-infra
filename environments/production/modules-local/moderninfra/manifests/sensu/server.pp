@@ -1,7 +1,7 @@
-# Class: profile::sensu
+# Class: moderninfra::sensu
 #
 #
-class profiles::sensu::server {
+class moderninfra::sensu::server {
   package { 'redis-server':
     ensure => installed,
   }

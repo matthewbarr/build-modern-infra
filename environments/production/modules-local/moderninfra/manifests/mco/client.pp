@@ -1,8 +1,8 @@
-# Class: profiles::mco::client
+# Class: moderninfra::mco::client
 #
 #
-class profiles::mco::client {
-  include profiles::mco::common
+class moderninfra::mco::client {
+  include moderninfra::mco::common
   class {'mcollective':
     client             => true,
     connector          => 'rabbitmq',

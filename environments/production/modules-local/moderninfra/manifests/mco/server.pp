@@ -1,8 +1,8 @@
-# Class: profiles::mco::client
+# Class: moderninfra::mco::client
 #
 #
-class profiles::mco::server {
-  include profiles::mco::common
+class moderninfra::mco::server {
+  include moderninfra::mco::common
   class {'mcollective':
     connector          => 'rabbitmq',
     middleware_hosts   => [ 'rabbitmq.aws.mbarr.net' ],

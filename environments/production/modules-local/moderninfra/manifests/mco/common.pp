@@ -1,7 +1,7 @@
-# Class: profiles::mco::plugins
+# Class: moderninfra::mco::plugins
 #
 #
-class profiles::mco::common {
+class moderninfra::mco::common {
   mcollective::server::setting { 'plugin.rabbitmq.heartbeat_interval':
     value => '60';
   }

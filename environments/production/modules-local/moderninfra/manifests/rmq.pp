@@ -1,7 +1,7 @@
-# Class: profile::rmq
+# Class: moderninfra::rmq
 #
 #
-class profiles::rmq (
+class moderninfra::rmq (
 $rmqhostname=undef,
 )
 {

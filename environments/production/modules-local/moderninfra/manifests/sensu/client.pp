@@ -1,7 +1,7 @@
-# Class: profiles::sensu::client
+# Class: moderninfra::sensu::client
 #
 #
-class profiles::sensu::client {
+class moderninfra::sensu::client {
   class { 'sensu':
     rabbitmq_password        => 'meep',
     rabbitmq_ssl_cert_chain  => 'puppet:///modules/kenshosensu/client/cert.pem',
