@@ -109,7 +109,7 @@
         ]
       }
     },
-    "Logstash": {
+    "Jenkins": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
         "DisableApiTermination": "FALSE",
@@ -117,7 +117,7 @@
         "InstanceType": "m1.small",
         "KernelId": "aki-919dcaf8",
         "KeyName": "aws-mbarr",
-        "SecurityGroups" : [ "mbarr-puppetcamp", "mbarr-pcamp-logstash"],
+        "SecurityGroups" : [ "mbarr-puppetcamp", "mbarr-pcamp-jenkins"],
         "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
         "#cloud-config","\n",
         "preserve_hostname: true","\n",
@@ -154,12 +154,12 @@
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
         "HostedZoneId" : "/hostedzone/Z1I5ORS78J7CVA",
-        "Comment" : "Logstash Server.",
+        "Comment" : "Jenkins Server.",
         "Name" :  "jenkins.aws.mbarr.net",
         "Type" : "CNAME",
         "TTL" : "30",
         "ResourceRecords" : [
-           { "Fn::GetAtt" : [ "Logstash", "PublicDnsName" ] }
+           { "Fn::GetAtt" : [ "Jenkins", "PublicDnsName" ] }
         ]
       }
     }
@@ -174,6 +174,10 @@
     },
     "Logstash" : {
       "Value" : { "Fn::Join" : ["", [ { "Fn::GetAtt" : [ "Logstash", "PublicIp" ]} ]] },
+      "Description" : "External IP"
+    },
+    "Jenkins" : {
+      "Value" : { "Fn::Join" : ["", [ { "Fn::GetAtt" : [ "Jenkins", "PublicIp" ]} ]] },
       "Description" : "External IP"
     }
   }
