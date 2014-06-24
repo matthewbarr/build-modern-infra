@@ -8,6 +8,8 @@ mod "elasticsearch/elasticsearch"
 mod "sensu/sensu"
 #mod "garethr/graphite"
 
+mod "rtyler/jenkins"
+
 mod "puppetlabs/mcollective"
 
 #mod "puppetlabs/vcsrepo"

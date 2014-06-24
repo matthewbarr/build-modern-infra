@@ -40,6 +40,10 @@ node default {
   }
   if $role == "logstash" {
     include moderninfra::sensu::client
-    include moderninfra::logstash::server
+    include profiles::logstash
+  }
+  if $role == "jenkins" {
+    include moderninfra::sensu::client
+    include jenkins
   }
 }
