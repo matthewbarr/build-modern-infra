@@ -19,10 +19,6 @@ Exec {
 } # Exec
 
 node default {
-  class {
-    'apt':
-      always_apt_update => true;
-  }
     if $role == "mco" {
     class {'moderninfra::rmq':
       rmqhostname => "rabbitmq.aws.mbarr.net"
@@ -35,14 +31,13 @@ node default {
     include moderninfra::sensu::client
     
   }
-  if $role == "search" {
-    include moderninfra::elasticsearch
-  }
   if $role == "logstash" {
+    include moderninfra::mco::server
     include moderninfra::sensu::client
     include profiles::logstash
   }
   if $role == "jenkins" {
+    include moderninfra::mco::server
     include moderninfra::sensu::client
     include jenkins
   }
