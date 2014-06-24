@@ -28,6 +28,8 @@ node default {
   }
   if $role == "puppet" {
     include profiles::mco::server
+    include profiles::sensu::server
+    
   }
   if $role == "search" {
     include profile::elasticsearch
