@@ -19,7 +19,11 @@ Exec {
 } # Exec
 
 node default {
-  if $role == "mco" {
+  class {
+    'apt':
+      always_apt_update => true;
+  }
+    if $role == "mco" {
     class {'moderninfra::rmq':
       rmqhostname => "rabbitmq.aws.mbarr.net"
     }
