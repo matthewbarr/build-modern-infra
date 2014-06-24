@@ -92,7 +92,7 @@ class moderninfra::logstash::server {
   #   embedded => false,
     # config => {
     #   'template_overwrite' => 'true'}
-  }
+  # }
   # class { 'moderninfra::elasticsearch':
   #   clusternodes=> '["logstash.aws.mbarr.net[9300-9400]","logstash-us-east-1c.aws.mbarr.net:9300","logstash-us-east-1d.aws.mbarr.net:9300"]'
   # }
