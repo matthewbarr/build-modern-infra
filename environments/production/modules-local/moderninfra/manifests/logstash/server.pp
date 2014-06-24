@@ -27,6 +27,8 @@ class moderninfra::logstash::server {
   class { 'logstash':
     ensure       => 'present',
     java_install => true,
+    manage_repo  => true,
+    repo_version => '1.4'
 #    conffile     => { 'agent' => 'puppet:///modules/moderninfra/logstash/zulip' }
   }
   # package { 'kibana':
