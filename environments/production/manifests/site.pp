@@ -35,6 +35,6 @@ node default {
     include moderninfra::elasticsearch
   }
   if $role == "logstash" {
-    include moderninfra::logstash
+    include moderninfra::logstash::server
   }
 }
