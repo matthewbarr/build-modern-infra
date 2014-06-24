@@ -39,6 +39,7 @@ node default {
     include moderninfra::elasticsearch
   }
   if $role == "logstash" {
+    include moderninfra::sensu::client
     include moderninfra::logstash::server
   }
 }
