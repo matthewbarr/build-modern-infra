@@ -20,21 +20,21 @@ Exec {
 
 node default {
   if $role == "mco" {
-    class {'profiles::rmq':
+    class {'moderninfra::rmq':
       rmqhostname => "rabbitmq.aws.mbarr.net"
     }
-    include profiles::mco::client
-    include profiles::sensu::server
+    include moderninfra::mco::client
+    include moderninfra::sensu::server
   }
   if $role == "puppet" {
-    include profiles::mco::server
-    include profiles::sensu::server
+    include moderninfra::mco::server
+    include moderninfra::sensu::client
     
   }
   if $role == "search" {
-    include profile::elasticsearch
+    include moderninfra::elasticsearch
   }
   if $role == "logstash" {
-    include profile::logstash
+    include moderninfra::logstash
   }
 }
