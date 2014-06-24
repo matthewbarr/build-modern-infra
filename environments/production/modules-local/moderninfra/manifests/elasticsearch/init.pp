@@ -17,9 +17,9 @@ class moderninfra::elasticsearch ($clusternodes=undef){
     manage_repo   => true,
     repo_version  => '1.1',
     config        => $config_hash,
-    init_defaults => {
-      'ES_HEAP_SIZE' => '2G'
-    },
+    # init_defaults => {
+    #   'ES_HEAP_SIZE' => '2G'
+    # },
   }
 
 

@@ -27,12 +27,11 @@ class moderninfra::logstash::server {
   class { 'logstash':
     ensure       => 'present',
     java_install => true,
-    installpath  => '/mnt/logstash',
 #    conffile     => { 'agent' => 'puppet:///modules/moderninfra/logstash/zulip' }
   }
-  package { 'kibana':
-    ensure => installed,
-  }
+  # package { 'kibana':
+  #   ensure => installed,
+  # }
 
   #
   # class { 'nginx':
@@ -41,7 +40,7 @@ class moderninfra::logstash::server {
   #   http_cfg_append  => {gzip_types => 'text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript'}
   # }
 
-  file {
+  # file {
   #   '/etc/nginx/conf.d/logstash.conf':
   #     ensure => file,
   #     owner  => root,
@@ -71,10 +70,10 @@ class moderninfra::logstash::server {
   # }
 
 # Inputs
-  logstash::input::syslog { 'logstash-syslog':
-    type => 'syslog',
-    port => '5544',
-  }
+  # logstash::input::syslog { 'logstash-syslog':
+  #   type => 'syslog',
+  #   port => '5544',
+  # }
   # logstash::input::lumberjack { 'logstash-lumberjack':
   #   type            => 'lumberjack',
   #   port            => '5005',
@@ -84,17 +83,17 @@ class moderninfra::logstash::server {
 
 
   # Filters
-  logstash::filter::grok { 'nginx':
-    pattern => ["%{IPORHOST:remote_addr} - %{USERNAME:remote_user} \[%{HTTPDATE:time_local}\] %{QS:request} %{INT:status} %{INT:body_bytes_sent} %{QS:http_referer} %{QS:http_user_agent}"],
-  }
+  # logstash::filter::grok { 'nginx':
+  #   pattern => ["%{IPORHOST:remote_addr} - %{USERNAME:remote_user} \[%{HTTPDATE:time_local}\] %{QS:request} %{INT:status} %{INT:body_bytes_sent} %{QS:http_referer} %{QS:http_user_agent}"],
+  # }
   # Outputs
-  logstash::output::elasticsearch { 'logstash-elasticsearch':
-    host     => "127.0.0.1",
-    embedded => false,
+  # logstash::output::elasticsearch { 'logstash-elasticsearch':
+  #   host     => "127.0.0.1",
+  #   embedded => false,
     # config => {
     #   'template_overwrite' => 'true'}
   }
-  class { 'moderninfra::elasticsearch':
-    clusternodes=> '["logstash.aws.mbarr.net[9300-9400]","logstash-us-east-1c.aws.mbarr.net:9300","logstash-us-east-1d.aws.mbarr.net:9300"]'
-  }
+  # class { 'moderninfra::elasticsearch':
+  #   clusternodes=> '["logstash.aws.mbarr.net[9300-9400]","logstash-us-east-1c.aws.mbarr.net:9300","logstash-us-east-1d.aws.mbarr.net:9300"]'
+  # }
 }
