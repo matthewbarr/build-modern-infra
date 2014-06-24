@@ -1,3 +1,15 @@
-input { stdin { } }
+input { 
+  tcp {
+    port => 5000
+    type => syslog
+  }
+  udp {
+    port => 5000
+    type => syslog
+  }
+}
 
-output { elasticsearch { host => localhost } }
+output { 
+  elasticsearch { host => localhost }
+  stdout { codec => rubydebug }
+ }
