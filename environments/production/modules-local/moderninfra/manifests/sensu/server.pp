@@ -29,7 +29,7 @@ class moderninfra::sensu::server {
     rabbitmq_port            => '5672',
 #    rabbitmq_ssl_cert_chain  => "/etc/sensu/ssl/cert.pem",
 #    rabbitmq_ssl_private_key => "/etc/sensu/ssl/key.pem",
-    subscriptions            => 'mbarr',
+    subscriptions            => 'general',
   }
 
   sensu::handler { 'default':

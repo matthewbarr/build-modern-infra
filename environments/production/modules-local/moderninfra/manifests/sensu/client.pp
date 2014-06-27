@@ -19,7 +19,7 @@ class moderninfra::sensu::client {
     rabbitmq_password        => 'meep',
 #    rabbitmq_ssl_cert_chain  => '/etc/sensu/ssl/cert.pem',
 #    rabbitmq_ssl_private_key => '/etc/sensu/ssl/key.pem',
-    subscriptions            => 'mbarr',
+    subscriptions            => 'general',
     rabbitmq_port            => '5672',
     use_embedded_ruby        => true,
     rabbitmq_host            => 'rabbitmq.aws.mbarr.net'
