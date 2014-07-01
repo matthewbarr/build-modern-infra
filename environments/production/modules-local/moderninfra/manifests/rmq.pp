@@ -5,26 +5,29 @@ class moderninfra::rmq (
 $rmqhostname=undef,
 )
 {
+  puppet_certificate { "$rmqhostname":
+    ensure => present,
+  } ->
   file { '/etc/rabbitmq/ssl/ca.pem':
     owner  => 'rabbitmq',
     group  => 'rabbitmq',
     mode   => '0444',
     source => 'file:///var/lib/puppet/ssl/certs/ca.pem';
-  }
+  } ->
   
   file { '/etc/rabbitmq/ssl/server_public.pem':
     owner  => 'rabbitmq',
     group  => 'rabbitmq',
     mode   => '0444',
     source => "file:///var/lib/puppet/ssl/certs/$rmqhostname.pem";
-  }
+  } ->
   
   file { '/etc/rabbitmq/ssl/server_private.pem':
     owner  => 'rabbitmq',
     group  => 'rabbitmq',
     mode   => '0400',
     source => "file:///var/lib/puppet/ssl/private_keys/$rmqhostname.pem";
-  }
+  } ->
   
   class { '::rabbitmq':
     ssl                      => true,
@@ -82,24 +85,25 @@ $rmqhostname=undef,
   } -> 
   rabbitmq_vhost { '/sensu':
     ensure => present,
-  }
+    } -> 
   rabbitmq_user_permissions { 'guest@/sensu':
     configure_permission => '.*',
     read_permission      => '.*',
     write_permission     => '.*',
-  }
+    } -> 
   rabbitmq_user { 'sensu':
     admin    => true,
     password => 'meep',
-  }
+    } -> 
   rabbitmq_user_permissions { 'sensu@/sensu':
     configure_permission => '.*',
     read_permission      => '.*',
     write_permission     => '.*',
-  }
+    } ~>
+    
+    Service ['rabbitmq-server']
 
-  puppet_certificate { "$rmqhostname":
-    ensure => present,
-  }
+
+
 
 }
