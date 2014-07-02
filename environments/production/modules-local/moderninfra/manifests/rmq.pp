@@ -74,14 +74,14 @@ class moderninfra::rmq {
     ensure   => present,
     type     => 'topic',
     user     => 'admin',
-    password => 'secret',
+    password => 'Notsosecret',
   } ->
 
   rabbitmq_exchange { "mcollective_directed@/mcollective":
     ensure   => present,
     type     => 'direct',
     user     => 'admin',
-    password => 'secret',
+    password => 'Notsosecret',
   } -> 
   rabbitmq_vhost { '/sensu':
     ensure => present,
