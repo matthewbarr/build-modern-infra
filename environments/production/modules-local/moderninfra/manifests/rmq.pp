@@ -6,30 +6,6 @@ class moderninfra::rmq {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  puppet_certificate { "$::moderninfra::rmqserver":
-    ensure => present,
-  } ->
-  file { '/etc/rabbitmq/ssl/ca.pem':
-    owner  => 'rabbitmq',
-    group  => 'rabbitmq',
-    mode   => '0444',
-    source => 'file:///var/lib/puppet/ssl/certs/ca.pem';
-  } ->
-  
-  file { '/etc/rabbitmq/ssl/server_public.pem':
-    owner  => 'rabbitmq',
-    group  => 'rabbitmq',
-    mode   => '0444',
-    source => "file:///var/lib/puppet/ssl/certs/$::moderninfra::rmqserver.pem";
-  } ->
-  
-  file { '/etc/rabbitmq/ssl/server_private.pem':
-    owner  => 'rabbitmq',
-    group  => 'rabbitmq',
-    mode   => '0400',
-    source => "file:///var/lib/puppet/ssl/private_keys/$::moderninfra::rmqserver.pem";
-  } ->
-  
   class { '::rabbitmq':
     ssl                      => true,
     ssl_verify               => 'verify_peer',
@@ -41,6 +17,29 @@ class moderninfra::rmq {
     config_stomp             => true,
     ssl_stomp_port           => 61614,
     } ->
+  puppet_certificate { "$::moderninfra::rmqserver":
+    ensure => present,
+  } ->
+  file { '/etc/rabbitmq/ssl/ca.pem':
+    owner  => 'rabbitmq',
+    group  => 'rabbitmq',
+    mode   => '0444',
+    source => 'file:///var/lib/puppet/ssl/certs/ca.pem';
+  } ->
+
+  file { '/etc/rabbitmq/ssl/server_public.pem':
+    owner  => 'rabbitmq',
+    group  => 'rabbitmq',
+    mode   => '0444',
+    source => "file:///var/lib/puppet/ssl/certs/$::moderninfra::rmqserver.pem";
+  } ->
+
+  file { '/etc/rabbitmq/ssl/server_private.pem':
+    owner  => 'rabbitmq',
+    group  => 'rabbitmq',
+    mode   => '0400',
+    source => "file:///var/lib/puppet/ssl/private_keys/$::moderninfra::rmqserver.pem";
+    } -> 
   rabbitmq_plugin { 'rabbitmq_stomp':
     ensure => present,
   } ->
@@ -100,11 +99,7 @@ class moderninfra::rmq {
     configure_permission => '.*',
     read_permission      => '.*',
     write_permission     => '.*',
-    } ~>
-    
-    Service ['rabbitmq-server']
-
-
+  }
 
 
 }
