@@ -2,6 +2,10 @@
 #
 #
 class moderninfra::sensu::client {
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
+  
   # file { '/etc/sensu/ssl/cert.pem':
   #   owner   => 'sensu',
   #   group   => 'sensu',
@@ -16,13 +20,13 @@ class moderninfra::sensu::client {
   #   source => "file:///var/lib/puppet/ssl/private_keys/${fqdn}.pem";
   # }
   class { 'sensu':
-    rabbitmq_password        => 'meep',
+    rabbitmq_password         => $::moderninfra::sensu_password,
 #    rabbitmq_ssl_cert_chain  => '/etc/sensu/ssl/cert.pem',
 #    rabbitmq_ssl_private_key => '/etc/sensu/ssl/key.pem',
-    subscriptions            => 'general',
-    rabbitmq_port            => '5672',
-    use_embedded_ruby        => true,
-    rabbitmq_host            => 'rabbitmq.aws.mbarr.net'
+    subscriptions             => 'general',
+    rabbitmq_port             => '5672',
+    use_embedded_ruby         => true,
+    rabbitmq_host             => $::moderninfra::rmqserver,
     }
 
 }

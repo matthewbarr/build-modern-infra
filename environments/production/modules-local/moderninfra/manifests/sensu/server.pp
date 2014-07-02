@@ -2,6 +2,10 @@
 #
 #
 class moderninfra::sensu::server {
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
+
   package { 'redis-server':
     ensure => installed,
   }
@@ -21,31 +25,16 @@ class moderninfra::sensu::server {
   # }
 
   class { 'sensu':
-    rabbitmq_password        => 'meep',
-    server                   => true,
-    dashboard                => true,
-    api                      => true,
-    use_embedded_ruby        => true,
-    rabbitmq_port            => '5672',
+    rabbitmq_host             => $::moderninfra::rmqserver,
+    rabbitmq_password         => $::moderninfra::sensu_password,
+    server                    => true,
+    dashboard                 => true,
+    api                       => true,
+    use_embedded_ruby         => true,
+    rabbitmq_port             => '5672',
 #    rabbitmq_ssl_cert_chain  => "/etc/sensu/ssl/cert.pem",
 #    rabbitmq_ssl_private_key => "/etc/sensu/ssl/key.pem",
-    subscriptions            => 'general',
-  }
-
-  sensu::handler { 'default':
-    command                       => '/etc/sensu/handlers/mailer.rb',
-    source                        => 'puppet:///modules/moderninfra/sensu/handlers/mailer.rb',
-    severities                    => ['warning', 'critical', 'unknown'],
-    config                        => {
-      'mail_from'                 => 'sensu@mbarr.net',
-      'mail_to'                   => 'mbarr@mbarr.net',
-      'smtp_address'              => 'email-smtp.us-east-1.amazonaws.com',
-      'smtp_port'                 => '587',
-      'smtp_domain'               => 'mbarr.net',
-      'smtp_username'             => 'MEEEPE',
-      'smtp_password'             => 'ABC',
-      'smtp_enable_starttls_auto' => true
-    }
+    subscriptions             => 'general',
   }
 
 #  class {'profiles::sensu::checks':}

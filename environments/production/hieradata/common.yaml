@@ -1,0 +1,4 @@
+---
+moderninfra::rmqserver: 'rabbitmq.aws.mbarr.net'
+moderninfra::mco_password: 'shhhh..its.a.secret.'
+moderninfra::sensu_password: 'whatsupdoc'

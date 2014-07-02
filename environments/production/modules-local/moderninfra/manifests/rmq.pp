@@ -1,11 +1,12 @@
 # Class: moderninfra::rmq
 #
 #
-class moderninfra::rmq (
-$rmqhostname=undef,
-)
-{
-  puppet_certificate { "$rmqhostname":
+class moderninfra::rmq {
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
+
+  puppet_certificate { "$::moderninfra::rmqserver":
     ensure => present,
   } ->
   file { '/etc/rabbitmq/ssl/ca.pem':
@@ -19,14 +20,14 @@ $rmqhostname=undef,
     owner  => 'rabbitmq',
     group  => 'rabbitmq',
     mode   => '0444',
-    source => "file:///var/lib/puppet/ssl/certs/$rmqhostname.pem";
+    source => "file:///var/lib/puppet/ssl/certs/$::moderninfra::rmqserver.pem";
   } ->
   
   file { '/etc/rabbitmq/ssl/server_private.pem':
     owner  => 'rabbitmq',
     group  => 'rabbitmq',
     mode   => '0400',
-    source => "file:///var/lib/puppet/ssl/private_keys/$rmqhostname.pem";
+    source => "file:///var/lib/puppet/ssl/private_keys/$::moderninfra::rmqserver.pem";
   } ->
   
   class { '::rabbitmq':
@@ -57,7 +58,7 @@ $rmqhostname=undef,
   rabbitmq_user { 'admin':
     ensure   => present,
     admin    => true,
-    password => 'secret',
+    password => 'Notsosecret',
   } ->
 
   rabbitmq_user_permissions { "mcollective@/mcollective":
@@ -93,7 +94,7 @@ $rmqhostname=undef,
     } -> 
   rabbitmq_user { 'sensu':
     admin    => true,
-    password => 'meep',
+    password => $::moderninfra::sensu_password,
     } -> 
   rabbitmq_user_permissions { 'sensu@/sensu':
     configure_permission => '.*',

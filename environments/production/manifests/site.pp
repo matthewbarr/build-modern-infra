@@ -19,26 +19,32 @@ Exec {
 } # Exec
 
 node default {
-    if $role == "mco" {
-    class {'moderninfra::rmq':
-      rmqhostname => "rabbitmq.aws.mbarr.net"
+  if $role == "mco" {
+    class {'moderninfra':
+      rmq => true,
+      mco_client => true,
+      sensu_server => true,
     }
-    include moderninfra::mco::client
-    include moderninfra::sensu::server
+        
   }
   if $role == "puppet" {
-    include moderninfra::mco::server
-    include moderninfra::sensu::client
-    
+    class {'moderninfra':
+      mco_server => true,
+      sensu_client => true,
+    }
   }
   if $role == "logstash" {
-    include moderninfra::mco::server
-    include moderninfra::sensu::client
+    class {'moderninfra':
+      mco_server => true,
+      sensu_client => true,
+    }
     include profiles::logstash
   }
   if $role == "jenkins" {
-    include moderninfra::mco::server
-    include moderninfra::sensu::client
+    class {'moderninfra':
+      mco_server => true,
+      sensu_client => true,
+    }
     include jenkins
   }
 }

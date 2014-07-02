@@ -2,6 +2,23 @@
 #
 #
 class profiles::sensuchecks {
+
+  sensu::handler { 'default':
+    command                       => '/etc/sensu/handlers/mailer.rb',
+    source                        => 'puppet:///modules/moderninfra/sensu/handlers/mailer.rb',
+    severities                    => ['warning', 'critical', 'unknown'],
+    config                        => {
+      'mail_from'                 => 'sensu@mbarr.net',
+      'mail_to'                   => 'mbarr@mbarr.net',
+      'smtp_address'              => 'email-smtp.us-east-1.amazonaws.com',
+      'smtp_port'                 => '587',
+      'smtp_domain'               => 'mbarr.net',
+      'smtp_username'             => 'MEEEPE',
+      'smtp_password'             => 'ABC',
+      'smtp_enable_starttls_auto' => true
+    }
+  }
+  
   sensu::check { 'check_ntp':
     command     => 'PATH=$PATH:/usr/lib/nagios/plugins check_ntp_time -H pool.ntp.org -w 20 -c 40',
     handlers    => 'default',
