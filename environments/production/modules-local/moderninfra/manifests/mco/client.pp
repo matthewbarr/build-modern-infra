@@ -1,9 +1,7 @@
 # Class: moderninfra::mco::client
 #
 #
-class moderninfra::mco::client (
-$rmqserver
-){
+class moderninfra::mco::client {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
