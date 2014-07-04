@@ -43,7 +43,9 @@ class moderninfra::rmq {
   rabbitmq_plugin { 'rabbitmq_stomp':
     ensure => present,
   } ->
-
+    exec { "rabbitmq-restart-to-activate-stopm":
+        command => "/usr/sbin/service rabbitmq restart"
+    } ->
   rabbitmq_vhost { '/mcollective':
     ensure => present,
   } ->
@@ -99,7 +101,7 @@ class moderninfra::rmq {
     configure_permission => '.*',
     read_permission      => '.*',
     write_permission     => '.*',
-  }
+    }
 
 
 }
