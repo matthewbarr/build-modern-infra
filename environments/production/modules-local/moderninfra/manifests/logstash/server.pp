@@ -4,25 +4,24 @@
 class moderninfra::logstash::server {
   sensu::subscription { 'logstash':}
 
-
-  # file {
-  #   '/etc/logstash/ssl':
-  #     ensure => directory,
-  #     owner  => root ,
-  #     group  => root;
-  #   '/etc/logstash/ssl/logstash-forwarder.crt':
-  #     ensure => file,
-  #     owner  => root ,
-  #     group  => root,
-  #     mode   => '0644',
-  #     source => 'puppet:///modules/moderninfra/logstash/logstash-forwarder.crt';
-  #   '/etc/logstash/ssl/logstash-forwarder.key':
-  #     ensure => file,
-  #     owner  => root ,
-  #     group  => root,
-  #     mode   => '0644',
-  #     source => 'puppet:///modules/moderninfra/logstash/logstash-forwarder.key';
-  # }
+  file {
+    '/etc/logstash/ssl':
+      ensure => directory,
+      owner  => root ,
+      group  => root;
+    '/etc/logstash/ssl/cert.pem':
+      ensure => file,
+      owner  => logstash ,
+      group  => logstash,
+      mode   => '444',
+    source => "file:///var/lib/puppet/ssl/certs/${fqdn}.pem";
+    '/etc/logstash/ssl/key.pem':
+      ensure => file,
+      owner  => logstash ,
+      group  => logstash,
+      mode   => '0400',
+    source => "file:///var/lib/puppet/ssl/private_keys/${fqdn}.pem";
+  }
   
   class { 'logstash':
     ensure       => 'present',

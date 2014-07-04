@@ -18,26 +18,12 @@ http://packages.elasticsearch.org/logstashforwarder/debian
     ensure => installed,
     } ->
   file {
-   '/opt/logstash-forwarder/logstash-forwarder.crt':
-      ensure => file,
-      owner  => root ,
-      group  => root,
-      mode   => 0644,
-      source => 'puppet:///modules/moderninfra/logstash/logstash-forwarder.crt';
-
-    '/etc/logstash-forwarder.conf':
+    '/etc/logstash-forwarder':
        ensure => file,
        owner  => root ,
        group  => root,
        mode   => 0644,
-       content => template("${module_name}/logstash-forwarder.conf.erb"),;
-
-     '/etc/init.d/logstash-forwarder':
-        ensure => file,
-        owner  => root ,
-        group  => root,
-        mode   => 0775,
-        source => 'puppet:///modules/moderninfra/logstash/logstash-forwarder.initscript';
+       content => template("${module_name}/logstash-forwarder/basic.conf.erb"),;
   } ~>
   service { "logstash-forwarder":
     ensure     => running,

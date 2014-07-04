@@ -1,3 +1,13 @@
+input {
+  lumberjack {
+    port => 12345
+    ssl_certificate => "/etc/logstash/ssl/cert.pem"
+    ssl_key => "/etc/logstash/ssl/key.pem"
+    type => "lumberjack"
+    debug => true
+  }
+}
+
 input { 
   tcp {
     port => 5000
