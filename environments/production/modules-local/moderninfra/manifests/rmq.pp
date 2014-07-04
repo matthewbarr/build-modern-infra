@@ -44,7 +44,7 @@ class moderninfra::rmq {
     ensure => present,
   } ->
     exec { "rabbitmq-restart-to-activate-stopm":
-        command => "/usr/sbin/service rabbitmq restart"
+        command => "/usr/sbin/service rabbitmq-server restart"
     } ->
   rabbitmq_vhost { '/mcollective':
     ensure => present,
