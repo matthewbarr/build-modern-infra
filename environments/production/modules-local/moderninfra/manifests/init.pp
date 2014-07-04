@@ -17,7 +17,7 @@ $sensu_password=undef,
       command => "/usr/bin/apt-get update"
   }
 
-  Apt::Source <| |> -> Exec["apt-update"] -> Package <| |>
+  Apt::Key <| |> -> Apt::Source <| |> -> Exec["apt-update"] -> Package <| |>
   
   
   if $rmq {
