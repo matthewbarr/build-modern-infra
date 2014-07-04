@@ -59,7 +59,7 @@
       "Type": "AWS::EC2::Instance",
       "Properties": {
         "DisableApiTermination": "FALSE",
-        "ImageId": "ami-408c7f28",
+        "ImageId": "ami-fa7dba92",
         "InstanceType": "m1.small",
         "KernelId": "aki-919dcaf8",
         "KeyName": "aws-mbarr",
