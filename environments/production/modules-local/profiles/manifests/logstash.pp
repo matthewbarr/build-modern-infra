@@ -3,6 +3,7 @@
 #
 class profiles::logstash {
   include moderninfra::logstash::server
+  include moderninfra::logstash::forwarder
   
   
   logstash::configfile { 'basic_config':

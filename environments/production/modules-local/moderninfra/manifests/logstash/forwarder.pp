@@ -3,8 +3,6 @@
 #
 class moderninfra::logstash::forwarder {
 
-http://packages.elasticsearch.org/logstashforwarder/debian
-
   apt::source { 'logstashforwarder':
     location    => 'http://packages.elasticsearch.org/logstashforwarder/debian',
     repos       => 'main',
