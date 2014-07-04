@@ -13,7 +13,13 @@ $mco_password=undef,
 $sensu_password=undef,
 )
 {
+  exec { "apt-update":
+      command => "/usr/bin/apt-get update"
+  }
 
+  Exec["apt-update"] -> Package <| |>
+  
+  
   if $rmq {
     include moderninfra::rmq
   }
