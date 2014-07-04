@@ -2,7 +2,18 @@
 #
 #
 class moderninfra::logstash::forwarder {
-  require kenshorepo
+
+http://packages.elasticsearch.org/logstashforwarder/debian
+
+  apt::source { 'logstashforwarder':
+    location    => 'http://packages.elasticsearch.org/logstashforwarder/debian',
+    repos       => 'main',
+    release     => 'stable',
+    include_src => false,
+    key         => 'D88E42B4',
+    key_server  => 'pgp.mit.edu',
+  }
+
   package { 'logstash-forwarder':
     ensure => installed,
     } ->
