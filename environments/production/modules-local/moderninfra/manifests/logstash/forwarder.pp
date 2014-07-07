@@ -10,18 +10,18 @@ class moderninfra::logstash::forwarder {
     include_src => false,
     key         => 'D88E42B4',
     key_server  => 'pgp.mit.edu',
-  }
+    } -> 
 
   package { 'logstash-forwarder':
     ensure => installed,
     } ->
   file {
     '/etc/logstash-forwarder':
-       ensure => file,
-       owner  => root ,
-       group  => root,
-       mode   => 0644,
-       content => template("${module_name}/logstash-forwarder/basic.conf.erb"),;
+      ensure  => file,
+      owner   => root ,
+      group   => root,
+      mode    => '0644',
+      content => template("${module_name}/logstash-forwarder/basic.conf.erb"),;
   } ~>
   service { "logstash-forwarder":
     ensure     => running,
