@@ -11,8 +11,7 @@ mod "puppetlabs/mcollective"
 
 mod "thejandroman-kibana3", "0.0.3"
 mod "mbarr/moderninfra",
-  :git => "git://github.com/matthewbarr/moderninfra.git",
-#  :ref => '0.0.3'
+  :git => "git://github.com/matthewbarr/moderninfra.git"
 
 #mod "garethr/graphite"
 
