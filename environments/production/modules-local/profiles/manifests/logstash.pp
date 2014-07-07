@@ -18,6 +18,7 @@ class profiles::logstash {
     status       => 'running'
   }
 
+  include kibana
 # Inputs
   # logstash::input::syslog { 'logstash-syslog':
   #   type => 'syslog',
