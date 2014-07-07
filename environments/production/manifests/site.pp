@@ -25,7 +25,7 @@ node default {
       mco_client => true,
       sensu_server => true,
     }
-        
+
   }
   if $role == "puppet" {
     class {'moderninfra':
