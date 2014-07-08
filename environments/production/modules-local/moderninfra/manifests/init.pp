@@ -35,12 +35,11 @@ $sensu_password=undef,
   if $sensu_server {
     include moderninfra::sensu::server
   }
-  if $sensu_server {
-    include moderninfra::sensu::server
-  }
-  if $logstash_forwarder {
+
+  if $logstash {
     include moderninfra::logstash::server
   }
+
   if $logstash_forwarder {
     include moderninfra::logstash::forwarder
   }

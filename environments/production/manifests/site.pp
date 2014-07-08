@@ -37,9 +37,9 @@ node default {
 
   if $role == "logstash" {
     class {'moderninfra':
-      logstash_server => true,
-      mco_server      => true,
-      sensu_client    => true,
+      logstash     => true,
+      mco_server   => true,
+      sensu_client => true,
     }
     include profiles::logstash
   }
