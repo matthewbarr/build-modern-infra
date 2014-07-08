@@ -4,11 +4,14 @@
 #Mco clients are also a MCO server.
 class moderninfra (
 $rmqserver,
+$logstash_server,
 $rmq=false,
 $mco_client=false,
 $mco_server=false,
 $sensu_client=false,
 $sensu_server=false,
+$logstash=false,
+$logstash_forwarder=true,
 $mco_password=undef,
 $sensu_password=undef,
 )
@@ -32,5 +35,13 @@ $sensu_password=undef,
   if $sensu_server {
     include moderninfra::sensu::server
   }
-
+  if $sensu_server {
+    include moderninfra::sensu::server
+  }
+  if $logstash_forwarder {
+    include moderninfra::logstash::server
+  }
+  if $logstash_forwarder {
+    include moderninfra::logstash::forwarder
+  }
 }

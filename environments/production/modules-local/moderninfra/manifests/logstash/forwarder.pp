@@ -2,7 +2,11 @@
 #
 #
 class moderninfra::logstash::forwarder {
-
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
+  
+  $logstash_server_real = $::moderninfra::logstash_server
   apt::source { 'logstashforwarder':
     location    => 'http://packages.elasticsearch.org/logstashforwarder/debian',
     repos       => 'main',
