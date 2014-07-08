@@ -21,28 +21,32 @@ Exec {
 node default {
   if $role == "mco" {
     class {'moderninfra':
-      rmq => true,
-      mco_client => true,
+      rmq          => true,
+      mco_client   => true,
       sensu_server => true,
     }
-
+    include profiles::sensuchecks 
   }
+
   if $role == "puppet" {
     class {'moderninfra':
-      mco_server => true,
+      mco_server   => true,
       sensu_client => true,
     }
   }
+
   if $role == "logstash" {
     class {'moderninfra':
-      mco_server => true,
-      sensu_client => true,
+      logstash_server => true,
+      mco_server      => true,
+      sensu_client    => true,
     }
     include profiles::logstash
   }
+
   if $role == "jenkins" {
     class {'moderninfra':
-      mco_server => true,
+      mco_server   => true,
       sensu_client => true,
     }
     include jenkins
