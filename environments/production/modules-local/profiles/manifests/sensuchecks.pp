@@ -3,6 +3,14 @@
 #
 class profiles::sensuchecks {
 
+  package { 'nagios-plugins-basic':
+    ensure => installed,
+  }
+  sensu::plugin {
+    'puppet:///modules/moderninfra/sensu/plugins/check_mem.sh':;
+    'puppet:///modules/moderninfra/sensu/plugins/check-procs.rb':;
+  }
+
   sensu::handler { 'default':
     command                       => '/etc/sensu/handlers/mailer.rb',
     source                        => 'puppet:///modules/moderninfra/sensu/handlers/mailer.rb',
@@ -18,7 +26,7 @@ class profiles::sensuchecks {
       'smtp_enable_starttls_auto' => true
     }
   }
-  
+
   sensu::check { 'check_ntp':
     command     => 'PATH=$PATH:/usr/lib/nagios/plugins check_ntp_time -H pool.ntp.org -w 20 -c 40',
     handlers    => 'default',
