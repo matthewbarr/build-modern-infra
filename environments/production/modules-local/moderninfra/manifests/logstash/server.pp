@@ -8,12 +8,17 @@ class moderninfra::logstash::server {
 
   sensu::subscription { 'logstash':}
 
-  class { 'elasticsearch':
+  class { '::elasticsearch':
     java_install => true,
     manage_repo  => true,
     repo_version => '1.1',
     status       => 'running'
-  } ~> Service['::elasticsearch']
+  } ~>
+
+  exec { 'start_elasticsearch':
+    command     => "/usr/sbin/service elasticsearch start",
+    refreshonly => true,
+  }
 
   file {
     '/etc/logstash/ssl':
