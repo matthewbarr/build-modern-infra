@@ -6,11 +6,6 @@ class moderninfra::sensu::client {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  exec { "apt-update":
-      command => "/usr/bin/apt-get update"
-  }
-  Apt::Key['sensu']-> Apt::Source['sensu'] ->  Exec["apt-update"] -> Package['sensu']
-
   # file { '/etc/sensu/ssl/cert.pem':
   #   owner   => 'sensu',
   #   group   => 'sensu',

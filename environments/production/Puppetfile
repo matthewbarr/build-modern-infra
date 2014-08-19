@@ -7,7 +7,7 @@ mod "sensu/sensu"
 
 mod "rtyler/jenkins"
 
-mod "puppetlabs/mcollective"
+mod "puppetlabs/mcollective", "1.1.6"
 
 mod "thejandroman/kibana3", "0.0.3"
 
