@@ -8,6 +8,7 @@ mod "sensu/sensu"
 mod "rtyler/jenkins"
 
 mod "puppetlabs/mcollective", "1.1.6"
+mod "pauloconnor/uchiwa"
 
 mod "thejandroman/kibana3", "0.0.3"
 

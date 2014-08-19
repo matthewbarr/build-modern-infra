@@ -28,7 +28,6 @@ class moderninfra::sensu::server {
     rabbitmq_host             => $::moderninfra::rmqserver,
     rabbitmq_password         => $::moderninfra::sensu_password,
     server                    => true,
-    dashboard                 => true,
     api                       => true,
     use_embedded_ruby         => true,
     rabbitmq_port             => '5672',
@@ -36,7 +35,8 @@ class moderninfra::sensu::server {
 #    rabbitmq_ssl_private_key => "/etc/sensu/ssl/key.pem",
     subscriptions             => 'general',
   }
-
+  class { 'uchiwa':
+  }
 #  class {'profiles::sensu::checks':}
 #  class {'profiles::sensu::plugins':}
   
