@@ -1,0 +1,184 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "RMQ": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "SubnetId": "subnet-b2e10beb",
+        "DisableApiTermination": "FALSE",
+        "ImageId": "ami-a0ff23c8",
+        "InstanceType": "t2.micro",
+        "KeyName": "mbarr@here",
+        "SecurityGroupIds" : [ "sg-f4451291", "sg-2e6b3c4b"],
+        "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
+        "#cloud-config","\n",
+        "preserve_hostname: true","\n",
+        "bootcmd:","\n",
+        " - echo -n rmq > /etc/hostname","\n",
+        " - echo -n - >> /etc/hostname","\n",
+        " - echo -n `curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone` >> /etc/hostname","\n",
+        " - echo -n - >> /etc/hostname","\n",
+        " - echo -n `curl -s http://169.254.169.254/latest/meta-data/instance-id` >> /etc/hostname","\n",
+        " - echo -n .ec2.mbarr.net >> /etc/hostname","\n",
+        " - hostname -F /etc/hostname","\n",
+        " - echo domain ec2.mbarr.net >> /etc/resolv.conf","\n",
+        " - mkdir -p /etc/facter/facts.d/","\n",
+        " - echo role=mco > /etc/facter/facts.d/role.txt","\n",
+        " - echo 127.0.0.1 localhost rmq-`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`-`curl -s http://169.254.169.254/latest/meta-data/instance-id`.ec2.mbarr.net > /etc/hosts","\n",
+        "apt_sources:","\n",
+        " - source: deb http://apt.puppetlabs.com $RELEASE main dependencies","\n",
+        "   keyid: 4BD6EC30","\n",
+        "   filename: puppetlabs.list","\n",
+        "puppet:","\n",
+        " conf:","\n",
+        "   agent:","\n",
+        "     server: \"puppet.ec2.mbarr.net\"","\n"]]}},
+        "Monitoring": "false",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "rabbitmq"
+          }
+        ]
+      }
+    },
+    "RMQDNS" : {
+      "Type" : "AWS::Route53::RecordSet",
+      "Properties" : {
+        "HostedZoneId" : "/hostedzone/Z1I5ORS78J7CVA",
+        "Comment" : "RMQ Server.",
+        "Name" :  "rabbitmq.aws.mbarr.net",
+        "Type" : "CNAME",
+        "TTL" : "30",
+        "ResourceRecords" : [
+           { "Fn::GetAtt" : [ "RMQ", "PublicDnsName" ] }
+        ]
+      }
+    },
+    "Logstash": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "SubnetId": "subnet-b2e10beb",
+        "DisableApiTermination": "FALSE",
+        "ImageId": "ami-a0ff23c8",
+        "InstanceType": "t2.micro",
+        "KeyName": "mbarr@here",
+        "SecurityGroupIds" : [ "sg-f4451291", "sg-e46b3c81"],
+        "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
+        "#cloud-config","\n",
+        "preserve_hostname: true","\n",
+        "bootcmd:","\n",
+        " - echo -n logstash > /etc/hostname","\n",
+        " - echo -n - >> /etc/hostname","\n",
+        " - echo -n `curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone` >> /etc/hostname","\n",
+        " - echo -n - >> /etc/hostname","\n",
+        " - echo -n `curl -s http://169.254.169.254/latest/meta-data/instance-id` >> /etc/hostname","\n",
+        " - echo -n .ec2.mbarr.net >> /etc/hostname","\n",
+        " - hostname -F /etc/hostname","\n",
+        " - echo domain ec2.mbarr.net >> /etc/resolv.conf","\n",
+        " - mkdir -p /etc/facter/facts.d/","\n",
+        " - echo role=logstash > /etc/facter/facts.d/role.txt","\n",
+        " - echo 127.0.0.1 localhost logstash-`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`-`curl -s http://169.254.169.254/latest/meta-data/instance-id`.ec2.mbarr.net > /etc/hosts","\n",
+        "apt_sources:","\n",
+        " - source: deb http://apt.puppetlabs.com $RELEASE main dependencies","\n",
+        "   keyid: 4BD6EC30","\n",
+        "   filename: puppetlabs.list","\n",
+        "puppet:","\n",
+        " conf:","\n",
+        "   agent:","\n",
+        "     server: \"puppet.ec2.mbarr.net\"","\n"]]}},
+        "Monitoring": "false",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "logstash"
+          }
+        ]
+      }
+    },
+    "LogstashDNS" : {
+      "Type" : "AWS::Route53::RecordSet",
+      "Properties" : {
+        "HostedZoneId" : "/hostedzone/Z1I5ORS78J7CVA",
+        "Comment" : "Logstash Server.",
+        "Name" :  "logstash.aws.mbarr.net",
+        "Type" : "CNAME",
+        "TTL" : "30",
+        "ResourceRecords" : [
+           { "Fn::GetAtt" : [ "Logstash", "PublicDnsName" ] }
+        ]
+      }
+    },
+    "Jenkins": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "SubnetId": "subnet-b2e10beb",
+        "DisableApiTermination": "FALSE",
+        "ImageId": "ami-a0ff23c8",
+        "InstanceType": "t2.micro",
+        "KeyName": "mbarr@here",
+        "SecurityGroupIds" : [ "sg-f4451291", "sg-cb6b3cae"],
+        "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
+        "#cloud-config","\n",
+        "preserve_hostname: true","\n",
+        "bootcmd:","\n",
+        " - echo -n jenkins > /etc/hostname","\n",
+        " - echo -n - >> /etc/hostname","\n",
+        " - echo -n `curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone` >> /etc/hostname","\n",
+        " - echo -n - >> /etc/hostname","\n",
+        " - echo -n `curl -s http://169.254.169.254/latest/meta-data/instance-id` >> /etc/hostname","\n",
+        " - echo -n .ec2.mbarr.net >> /etc/hostname","\n",
+        " - hostname -F /etc/hostname","\n",
+        " - echo domain ec2.mbarr.net >> /etc/resolv.conf","\n",
+        " - mkdir -p /etc/facter/facts.d/","\n",
+        " - echo role=jenkins > /etc/facter/facts.d/role.txt","\n",
+        " - echo 127.0.0.1 localhost jenkins-`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`-`curl -s http://169.254.169.254/latest/meta-data/instance-id`.ec2.mbarr.net > /etc/hosts","\n",
+        "apt_sources:","\n",
+        " - source: deb http://apt.puppetlabs.com $RELEASE main dependencies","\n",
+        "   keyid: 4BD6EC30","\n",
+        "   filename: puppetlabs.list","\n",
+        "puppet:","\n",
+        " conf:","\n",
+        "   agent:","\n",
+        "     server: \"puppet.ec2.mbarr.net\"","\n"]]}},
+        "Monitoring": "false",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "jenkins"
+          }
+        ]
+      }
+    },
+    "JenkinsDNS" : {
+      "Type" : "AWS::Route53::RecordSet",
+      "Properties" : {
+        "HostedZoneId" : "/hostedzone/Z1I5ORS78J7CVA",
+        "Comment" : "Jenkins Server.",
+        "Name" :  "jenkins.aws.mbarr.net",
+        "Type" : "CNAME",
+        "TTL" : "30",
+        "ResourceRecords" : [
+           { "Fn::GetAtt" : [ "Jenkins", "PublicDnsName" ] }
+        ]
+      }
+    }
+  },
+
+  "Description": "Infra Stack",
+
+  "Outputs" : {
+    "RabbitMQ" : {
+      "Value" : { "Fn::Join" : ["", [ { "Fn::GetAtt" : [ "RMQ", "PublicIp" ]} ]] },
+      "Description" : "External IP"
+    },
+    "Logstash" : {
+      "Value" : { "Fn::Join" : ["", [ { "Fn::GetAtt" : [ "Logstash", "PublicIp" ]} ]] },
+      "Description" : "External IP"
+    },
+    "Jenkins" : {
+      "Value" : { "Fn::Join" : ["", [ { "Fn::GetAtt" : [ "Jenkins", "PublicIp" ]} ]] },
+      "Description" : "External IP"
+    }
+  }
+}
