@@ -27,7 +27,7 @@ class moderninfra::sensu::server {
   class { 'sensu':
     rabbitmq_host             => $::moderninfra::rmqserver,
     rabbitmq_password         => $::moderninfra::sensu_password,
-    rabbitmq_vhost            => '/sensu,'
+    rabbitmq_vhost            => '/sensu',
     server                    => true,
     api                       => true,
     use_embedded_ruby         => true,
