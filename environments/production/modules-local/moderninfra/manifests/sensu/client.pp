@@ -27,6 +27,7 @@ class moderninfra::sensu::client {
     rabbitmq_port             => '5672',
     use_embedded_ruby         => true,
     rabbitmq_host             => $::moderninfra::rmqserver,
+    rabbitmq_vhost            => '/sensu,'
     }
 
 }
