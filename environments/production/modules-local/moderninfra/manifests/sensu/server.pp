@@ -35,7 +35,6 @@ class moderninfra::sensu::server {
 #    rabbitmq_ssl_cert_chain  => "/etc/sensu/ssl/cert.pem",
 #    rabbitmq_ssl_private_key => "/etc/sensu/ssl/key.pem",
     subscriptions             => 'general',
-    version                   => '.12',
     } ->
 
   class { 'uchiwa':
